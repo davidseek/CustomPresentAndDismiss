@@ -5,8 +5,11 @@ import UIKit
 
 class DismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.6
+    func transitionDuration(
+        using transitionContext: UIViewControllerContextTransitioning?)
+        -> TimeInterval {
+            
+            return 0.6
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -18,23 +21,21 @@ class DismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
         
         let screenBounds = UIScreen.main.bounds
         
-        var xPosition: CGFloat = destinationController.view.bounds.origin.x - screenBounds.width
-        let yPosition: CGFloat = destinationController.view.bounds.origin.y
-        let width: CGFloat = destinationController.view.bounds.width
-        let height: CGFloat = destinationController.view.bounds.height
-        
-        var frame: CGRect = CGRect(
-            x: xPosition,
-            y: yPosition,
-            width: width,
-            height: height)
+        var xPosition = destinationController.view.bounds.origin.x - screenBounds.width
+        let yPosition = destinationController.view.bounds.origin.y
 
         destinationController.view.alpha = 0.2
+        destinationController.view.frame = CGRect(
+            x: xPosition,
+            y: yPosition,
+            width: destinationController.view.bounds.width,
+            height: destinationController.view.bounds.height)
         
-        destinationController.view.frame = frame
         let containerView = transitionContext.containerView
         
-        containerView.insertSubview(destinationController.view, belowSubview: sourceController.view)
+        containerView.insertSubview(
+            destinationController.view, belowSubview:
+            sourceController.view)
 
         let bottomLeftCorner = CGPoint(x: screenBounds.width, y: 0)
         let finalFrame = CGRect(origin: bottomLeftCorner, size: screenBounds.size)
@@ -47,14 +48,12 @@ class DismissAnimator: NSObject, UIViewControllerAnimatedTransitioning {
                 destinationController.view.alpha = 1
                 
                 xPosition = destinationController.view.bounds.origin.x
-                
-                frame = CGRect(
+            
+                destinationController.view.frame = CGRect(
                     x: xPosition,
                     y: yPosition,
-                    width: width,
-                    height: height)
-
-                destinationController.view.frame = frame
+                    width: destinationController.view.bounds.width,
+                    height: destinationController.view.bounds.height)
                 
             }, completion: { _ in
                 
